@@ -50,9 +50,9 @@ public class LFSFileStorageService implements FileStorageService {
 	}
 
 	@Override
-	public OutputStream getFileStream(@NonNull String fid) throws FileNotFoundException {
+	public InputStream getFileStream(@NonNull String fid) throws FileNotFoundException {
 		log.debug("getFileStream({})", fid);
-		return new FileOutputStream(new File(getFilePath(fid)));
+		return new FileInputStream(new File(getFilePath(fid)));
 	}
 
 	@Override
