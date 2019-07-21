@@ -6,7 +6,7 @@ import java.io.*;
 
 public interface IFileStorageService {
 
-	OutputStream getFileStream(@NonNull String fid) throws FileNotFoundException;
+	InputStream getFileStream(@NonNull String fid) throws FileNotFoundException;
 
 	byte[] getFileBytes(@NonNull String fid) throws FileNotFoundException;
 

@@ -1,4 +1,4 @@
-package dev.tindersamurai.prokurator.backend.commons.client;
+package dev.tindersamurai.prokurator.backend.commons.client.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.GsonBuilder;
@@ -13,7 +13,7 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public interface BackendRepoFactory {
+public interface ServiceRepositoryFactory {
 
 	static <T> T create(@NonNull Class<T> repository, @NonNull String baseUrl) {
 		val gson = new GsonBuilder().setLenient().create();
@@ -25,7 +25,7 @@ public interface BackendRepoFactory {
 	}
 
 	static <T> T create(@NonNull Class<T> repository, @NonNull Converter.Factory factory, @NonNull String baseUrl) {
-		val log = Logger.getLogger(BackendRepoFactory.class.getName());
+		val log = Logger.getLogger(ServiceRepositoryFactory.class.getName());
 		log.log(Level.CONFIG, "createClient: " + repository.getName());
 		val retrofit = new Retrofit.Builder()
 				.addConverterFactory(factory)

@@ -1,6 +1,6 @@
-package dev.tindersamurai.prokurator.backend.commons.client;
+package dev.tindersamurai.prokurator.backend.commons.client.service;
 
-import dev.tindersamurai.prokurator.backend.commons.client.repository.CollectorServiceRepo;
+import dev.tindersamurai.prokurator.backend.commons.client.repository.retro.CollectorServiceRepo;
 import dev.tindersamurai.prokurator.backend.commons.entity.CollectorEvent;
 import dev.tindersamurai.prokurator.backend.commons.service.ICollectorService;
 import lombok.SneakyThrows;
@@ -20,7 +20,7 @@ public class CollectorServiceClient implements ICollectorService {
 		if (!response.isSuccessful()) {
 			val error = response.errorBody();
 			val e = error == null ? "" : error.string();
-			throw new RuntimeException("Cannot store collector event: " + e);
+			throw new RuntimeException("Cannot store collector event: " + "[" + response.code() + "] " + e);
 		}
 	}
 }
