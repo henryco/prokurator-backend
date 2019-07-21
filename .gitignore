@@ -29,5 +29,6 @@ HELP.md
 .vscode/
 
 token.properties
-/.internal
+.internal
 resources/lfs
+target
