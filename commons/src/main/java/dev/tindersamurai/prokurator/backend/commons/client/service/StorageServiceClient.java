@@ -1,6 +1,5 @@
 package dev.tindersamurai.prokurator.backend.commons.client.service;
 
-import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
 import dev.tindersamurai.prokurator.backend.commons.client.repository.retro.StorageServiceRepo;
 import dev.tindersamurai.prokurator.backend.commons.service.IFileStorageService;
 import lombok.NonNull;
