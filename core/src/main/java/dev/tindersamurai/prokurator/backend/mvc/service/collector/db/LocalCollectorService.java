@@ -1,5 +1,6 @@
 package dev.tindersamurai.prokurator.backend.mvc.service.collector.db;
 
+import dev.tindersamurai.prokurator.backend.commons.entity.CollectorEvent;
 import dev.tindersamurai.prokurator.backend.mvc.data.dao.jpa.GuildRepo;
 import dev.tindersamurai.prokurator.backend.mvc.data.dao.jpa.TextChannelRepo;
 import dev.tindersamurai.prokurator.backend.mvc.data.dao.jpa.UserRepo;
@@ -32,7 +33,7 @@ public class LocalCollectorService implements CollectorService {
 	}
 
 	@Override @Transactional
-	public void saveDiscordEvent(EventEntity entity) {
+	public void saveDiscordEvent(CollectorEvent entity) {
 		log.debug("saveDiscordEvent: {}", entity);
 
 		val user = new User(); {

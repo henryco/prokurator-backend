@@ -1,32 +1,8 @@
 package dev.tindersamurai.prokurator.backend.mvc.service.collector;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Value;
+import dev.tindersamurai.prokurator.backend.commons.service.ICollectorService;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+public interface CollectorService extends ICollectorService {
 
-public interface CollectorService {
 
-	@Value @Builder @AllArgsConstructor class DiscordEntity {
-		private @Nonnull String id;
-		private @Nonnull String name;
-		private @Nullable String avatar;
-	}
-
-	@Value @Builder @AllArgsConstructor class ChannelEntity {
-		private @Nonnull String id;
-		private @Nonnull String name;
-		private @Nullable String category;
-		private @Nonnull Boolean nsfw;
-		private @Nonnull DiscordEntity guild;
-	}
-
-	@Value @Builder @AllArgsConstructor class EventEntity {
-		private @Nonnull DiscordEntity user;
-		private @Nonnull ChannelEntity channel;
-	}
-
-	void saveDiscordEvent(EventEntity entity);
 }
