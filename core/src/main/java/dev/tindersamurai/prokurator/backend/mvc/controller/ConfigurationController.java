@@ -4,6 +4,7 @@ import dev.tindersamurai.prokurator.backend.commons.entity.Config;
 import dev.tindersamurai.prokurator.backend.commons.entity.Response;
 import dev.tindersamurai.prokurator.backend.mvc.service.configuration.ConfigurationService;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,9 +38,11 @@ public class ConfigurationController {
 	}
 
 	@PostMapping("/get/{name}")
-	public Response<?> getConfiguration(@PathVariable String name) {
+	public Response<Config> getConfiguration(@PathVariable String name) {
 		log.debug("getConfiguration: {}", name);
-		return new Response<>(configurationService.get(name));
+		val o = configurationService.get(name);
+		if (o == null) return new Response<>(new Config(name, String.class, null));
+		return new Response<>(new Config(name, o.getClass(), o));
 	}
 
 	@PostMapping("/exists/{name}")

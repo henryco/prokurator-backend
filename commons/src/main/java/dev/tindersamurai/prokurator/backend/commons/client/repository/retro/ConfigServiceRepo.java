@@ -20,8 +20,8 @@ public interface ConfigServiceRepo {
 	Call<Response> removeConfiguration(@Path("name") String name);
 
 	@POST("api/configuration/get/{name}")
-	Call<Response<String>> getConfiguration(@Path("name") String name);
+	Call<Response<Config>> getConfiguration(@Path("name") String name);
 
 	@POST("api/configuration/exists/{name}")
-	Call<Response<String>> isConfigurationExists(@Path("name") String name);
+	Call<Response<Boolean>> isConfigurationExists(@Path("name") String name);
 }
