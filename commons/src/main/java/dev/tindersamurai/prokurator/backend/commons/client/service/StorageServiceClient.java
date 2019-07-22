@@ -2,6 +2,7 @@ package dev.tindersamurai.prokurator.backend.commons.client.service;
 
 import dev.tindersamurai.prokurator.backend.commons.client.repository.retro.StorageServiceRepo;
 import dev.tindersamurai.prokurator.backend.commons.service.IFileStorageService;
+import dev.tindersamurai.prokurator.backend.commons.utils.MimeTypeMappings;
 import lombok.NonNull;
 import lombok.extern.java.Log;
 import lombok.val;
@@ -25,7 +26,7 @@ public class StorageServiceClient implements IFileStorageService {
 		this.serviceRepo = serviceRepo;
 	}
 
-	private  ResponseBody callForFile(@NonNull String fid) throws FileNotFoundException {
+	private ResponseBody callForFile(@NonNull String fid) throws FileNotFoundException {
 		try {
 			val response = serviceRepo.getFile(fid).execute();
 			if (!response.isSuccessful()) {
@@ -62,7 +63,7 @@ public class StorageServiceClient implements IFileStorageService {
 	}
 
 	@Override
-	public String storeFile(@NonNull File file) {
+	public String storeFile(@NonNull File file, String name) {
 		log.info("storeFile: " + file);
 		try {
 			val type = MediaType.parse(new Tika().detect(file));
@@ -72,9 +73,11 @@ public class StorageServiceClient implements IFileStorageService {
 			val body = MultipartBody.Part.createFormData("file", file.getName(), requestFile);
 
 			// add another part within the multipart request
-			val name = RequestBody.create(okhttp3.MultipartBody.FORM, file.getName());
+			val fileName = name == null
+					? RequestBody.create(okhttp3.MultipartBody.FORM, file.getName())
+					: RequestBody.create(okhttp3.MultipartBody.FORM, name);
 
-			val response = serviceRepo.uploadFile(name, body).execute();
+			val response = serviceRepo.uploadFile(fileName, body).execute();
 			if (!response.isSuccessful() || response.body() == null) {
 				val error = response.errorBody();
 				val e = error == null ? "" : (": "  + error.string());
@@ -106,7 +109,8 @@ public class StorageServiceClient implements IFileStorageService {
 	private static File createTempFile(@NonNull InputStream stream, String name) {
 		try {
 			val n = (name == null || name.isEmpty()) ? UUID.randomUUID().toString() : name;
-			val file = File.createTempFile("", n);
+			val extension = createExtension(stream);
+			val file = File.createTempFile(pureName(n), extension);
 			val path = Paths.get(file.toURI());
 			if (file.exists()) {
 				val uniqueOne = UUID.randomUUID().toString() + "-" + file.getName();
@@ -120,5 +124,16 @@ public class StorageServiceClient implements IFileStorageService {
 			log.throwing(StorageServiceClient.class.getName(), "createTempFile", e);
 			return null;
 		}
+	}
+
+	private static String createExtension(@NonNull InputStream stream) throws IOException {
+		val extension = MimeTypeMappings.getExtension(new Tika().detect(stream));
+		return extension == null ? "" : ("." + extension);
+	}
+
+	private static String pureName(String file) {
+		val index = file.lastIndexOf(".");
+		if (index <= 0) return file;
+		return file.substring(0, index);
 	}
 }
