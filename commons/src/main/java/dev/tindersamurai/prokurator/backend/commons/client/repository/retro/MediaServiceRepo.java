@@ -7,6 +7,6 @@ import retrofit2.http.POST;
 
 public interface MediaServiceRepo {
 
-	@POST("api/collector/event")
+	@POST("api/media/event")
 	Call<Void> saveMediaEvent(@Body MediaEvent event);
 }
