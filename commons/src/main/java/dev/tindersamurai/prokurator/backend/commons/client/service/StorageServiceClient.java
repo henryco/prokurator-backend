@@ -106,7 +106,7 @@ public class StorageServiceClient implements IFileStorageService {
 	private static File createTempFile(@NonNull InputStream stream, String name) {
 		try {
 			val n = (name == null || name.isEmpty()) ? UUID.randomUUID().toString() : name;
-			val file = File.createTempFile(n, "");
+			val file = File.createTempFile("", n);
 			val path = Paths.get(file.toURI());
 			if (file.exists()) {
 				val uniqueOne = UUID.randomUUID().toString() + "-" + file.getName();
