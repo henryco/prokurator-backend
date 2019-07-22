@@ -2,7 +2,7 @@ package dev.tindersamurai.prokurator.backend.mvc.controller;
 
 import dev.tindersamurai.prokurator.backend.commons.entity.Response;
 import dev.tindersamurai.prokurator.backend.mvc.service.storage.FileStorageService;
-import dev.tindersamurai.prokurator.backend.mvc.utils.MimeTypeMappings;
+import dev.tindersamurai.prokurator.backend.commons.utils.MimeTypeMappings;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.apache.tika.Tika;

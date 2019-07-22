@@ -11,7 +11,7 @@
 	<groupId>dev.tindersamurai.prokurator</groupId>
 	<artifactId>backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Prokurator-backend</name>
+	<name>prokurator-backend</name>
 	<description>Prokurator project backend service</description>
 
     <packaging>pom</packaging>

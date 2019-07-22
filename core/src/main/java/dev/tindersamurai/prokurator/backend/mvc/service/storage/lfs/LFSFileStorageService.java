@@ -78,8 +78,9 @@ public class LFSFileStorageService implements FileStorageService {
 	}
 
 	@Override
-	public String storeFile(@NonNull File file) {
-		log.debug("storeFile({})", file);
+	public String storeFile(@NonNull File file, String name) {
+		log.debug("storeFile({}, {})", file, name);
+		log.warn("Using existing file, func sec arg[name] will be ignored...");
 		return persist(file.getAbsolutePath());
 	}
 

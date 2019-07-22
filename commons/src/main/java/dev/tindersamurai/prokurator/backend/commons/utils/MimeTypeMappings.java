@@ -1,4 +1,4 @@
-package dev.tindersamurai.prokurator.backend.mvc.utils;
+package dev.tindersamurai.prokurator.backend.commons.utils;
 
 import lombok.val;
 import java.util.HashMap;

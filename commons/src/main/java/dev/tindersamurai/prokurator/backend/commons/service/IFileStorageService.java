@@ -13,10 +13,15 @@ public interface IFileStorageService {
 	File getFile(@NonNull String fid) throws FileNotFoundException;
 
 	/** @return UID string */
-	String storeFile(@NonNull File file);
+	String storeFile(@NonNull File file, String name);
 
 	/** @return UID string */
 	String storeFile(@NonNull InputStream stream, String name);
+
+	/** @return UID string */
+	default String storeFile(@NonNull File file) {
+		return storeFile(file, null);
+	}
 
 	/** @return UID string */
 	default String storeFile(@NonNull InputStream stream) {
