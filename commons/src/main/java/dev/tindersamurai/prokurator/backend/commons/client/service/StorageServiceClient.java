@@ -94,7 +94,7 @@ public class StorageServiceClient implements IFileStorageService {
 	@Override
 	public String storeFile(@NonNull InputStream stream, String name) {
 		val file = createTempFile(stream, name);
-		val fid = storeFile(file);
+		val fid = storeFile(file, name);
 		try {
 			if (file != null) {
 				//noinspection ResultOfMethodCallIgnored
