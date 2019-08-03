@@ -3,12 +3,13 @@ package dev.tindersamurai.prokurator.backend.mvc.controller;
 import dev.tindersamurai.prokurator.backend.commons.entity.Config;
 import dev.tindersamurai.prokurator.backend.commons.entity.Response;
 import dev.tindersamurai.prokurator.backend.mvc.service.configuration.ConfigurationService;
+import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-@RestController @Slf4j
+@RestController @Slf4j @Api
 @RequestMapping("/api/configuration")
 public class ConfigurationController {
 
