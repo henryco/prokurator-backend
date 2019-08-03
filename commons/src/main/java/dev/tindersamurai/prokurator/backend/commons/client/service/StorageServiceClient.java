@@ -2,7 +2,6 @@ package dev.tindersamurai.prokurator.backend.commons.client.service;
 
 import dev.tindersamurai.prokurator.backend.commons.client.repository.retro.StorageServiceRepo;
 import dev.tindersamurai.prokurator.backend.commons.service.IFileStorageService;
-import dev.tindersamurai.prokurator.backend.commons.utils.MimeTypeMappings;
 import lombok.NonNull;
 import lombok.extern.java.Log;
 import lombok.val;
@@ -59,12 +58,13 @@ public class StorageServiceClient implements IFileStorageService {
 
 	@Override
 	public File getFile(@NonNull String fid) throws FileNotFoundException {
-		return createTempFile(getFileStream(fid), fid);
+		return createTempFile(getFileStream(fid));
 	}
 
 	@Override
 	public String storeFile(@NonNull File file, String name) {
 		log.info("storeFile: " + file);
+		log.info("size: " + file.length());
 		try {
 			val type = MediaType.parse(new Tika().detect(file));
 			val requestFile = RequestBody.create(type, file);
@@ -86,54 +86,50 @@ public class StorageServiceClient implements IFileStorageService {
 			}
 			return response.body().getValue();
 		} catch (IOException e) {
-			log.throwing(StorageServiceClient.class.getName(), "storeFile", e);
-			return null;
+			throw new RuntimeException("Cannot store file", e);
 		}
 	}
 
 	@Override
 	public String storeFile(@NonNull InputStream stream, String name) {
-		val file = createTempFile(stream, name);
+		log.info("storeFile: " + stream + " name: " + name);
+		val file = createTempFile(stream);
 		val fid = storeFile(file, name);
 		try {
-			if (file != null) {
-				//noinspection ResultOfMethodCallIgnored
-				file.delete();
-			}
+			//noinspection ResultOfMethodCallIgnored
+			file.delete();
 		} catch (Exception e) {
 			log.throwing(StorageServiceClient.class.getName(), "storeFile", e);
+			log.warning("Cannot delete file: " + e.getMessage());
+			e.printStackTrace();
 		}
 		return fid;
 	}
 
-	private static File createTempFile(@NonNull InputStream stream, String name) {
+	private static File createTempFile(@NonNull InputStream stream) {
+		log.info("createTempFile: " + stream);
+
 		try {
-			val n = (name == null || name.isEmpty()) ? UUID.randomUUID().toString() : name;
-			val extension = createExtension(stream);
-			val file = File.createTempFile(pureName(n), extension);
-			val path = Paths.get(file.toURI());
+			val path = Paths.get(".internal/tmp", UUID.randomUUID().toString());
+			//noinspection ResultOfMethodCallIgnored
+			new File(path.getParent().toUri()).mkdirs();
+
+			val file = path.toFile();
 			if (file.exists()) {
 				val uniqueOne = UUID.randomUUID().toString() + "-" + file.getName();
 				val uniquePath = Paths.get(path.getParent().toString(), uniqueOne);
+				val uniqueFile = uniquePath.toFile();
+
 				Files.copy(stream, uniquePath);
-				return file;
+				uniqueFile.deleteOnExit();
+				return uniqueFile;
 			}
+
 			Files.copy(stream, path);
+			file.deleteOnExit();
 			return file;
 		} catch (IOException e) {
-			log.throwing(StorageServiceClient.class.getName(), "createTempFile", e);
-			return null;
+			throw new RuntimeException("Cannot create temp file", e);
 		}
-	}
-
-	private static String createExtension(@NonNull InputStream stream) throws IOException {
-		val extension = MimeTypeMappings.getExtension(new Tika().detect(stream));
-		return extension == null ? "" : ("." + extension);
-	}
-
-	private static String pureName(String file) {
-		val index = file.lastIndexOf(".");
-		if (index <= 0) return file;
-		return file.substring(0, index);
 	}
 }
