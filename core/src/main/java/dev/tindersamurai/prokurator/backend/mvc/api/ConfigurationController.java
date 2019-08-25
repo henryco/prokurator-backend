@@ -9,6 +9,8 @@ import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController @Slf4j @Api
 @RequestMapping("/api/configuration")
 public class ConfigurationController {
@@ -21,7 +23,7 @@ public class ConfigurationController {
 	}
 
 	@PostMapping("/add")
-	public void addConfiguration(@RequestBody Config config) {
+	public void addConfiguration(@Valid @RequestBody Config config) {
 		log.debug("addConfiguration: {}", config);
 		configurationService.addConfigParam(config.getName(), config.getType(), config.getValue());
 	}

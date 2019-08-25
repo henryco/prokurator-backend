@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 
 @RestController @Slf4j @Api
@@ -24,7 +26,7 @@ public class CollectorController {
 	}
 
 	@PostMapping(value = "/event", consumes = APPLICATION_JSON_UTF8_VALUE)
-	public void saveCollectorEvent(@RequestBody CollectorEvent event) {
+	public void saveCollectorEvent(@Valid @RequestBody CollectorEvent event) {
 		collectorService.saveDiscordEvent(event);
 	}
 }
