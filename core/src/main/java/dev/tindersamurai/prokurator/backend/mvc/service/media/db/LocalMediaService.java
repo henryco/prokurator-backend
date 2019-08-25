@@ -60,7 +60,8 @@ public class LocalMediaService implements MediaService {
 		log.debug("removeMedia: {}", id);
 		val found = mediaPostRepo.findById(id);
 		if (!found.isPresent()) {
-			throw new RuntimeException("Media post is not present in DB: " + id);
+			log.warn("Media post is not present in DB: " + id);
+			return;
 		}
 
 		val one = found.get();
