@@ -23,4 +23,14 @@ public class MediaServiceClient implements IMediaService {
 			throw new RuntimeException("Cannot store media event: " + "[" + response.code() + "] " + e);
 		}
 	}
+
+	@Override @SneakyThrows
+	public void removeMedia(String id) {
+		val response = serviceRepo.removeMedia(id).execute();
+		if (!response.isSuccessful()) {
+			val error = response.errorBody();
+			val e = error == null ? "" : error.string();
+			throw new RuntimeException("Cannot remove media post: " + "[" + response.code() + "] " + e);
+		}
+	}
 }

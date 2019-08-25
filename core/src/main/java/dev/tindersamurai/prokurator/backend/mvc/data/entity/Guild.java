@@ -22,7 +22,4 @@ public class Guild {
 			nullable = false
 	) String name;
 
-	private @Column(
-			name = "icon"
-	) String iconUrl;
 }

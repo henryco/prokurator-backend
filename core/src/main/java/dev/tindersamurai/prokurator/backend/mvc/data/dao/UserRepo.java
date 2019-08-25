@@ -1,4 +1,4 @@
-package dev.tindersamurai.prokurator.backend.mvc.data.dao.jpa;
+package dev.tindersamurai.prokurator.backend.mvc.data.dao;
 
 import dev.tindersamurai.prokurator.backend.mvc.data.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;

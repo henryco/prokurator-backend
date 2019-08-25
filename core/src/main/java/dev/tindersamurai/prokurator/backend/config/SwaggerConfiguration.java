@@ -1,5 +1,6 @@
 package dev.tindersamurai.prokurator.backend.config;
 
+import io.swagger.annotations.Api;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -17,7 +18,7 @@ public class SwaggerConfiguration {
 	public Docket api() {
 		return new Docket(DocumentationType.SWAGGER_2)
 				.select()
-				.apis(RequestHandlerSelectors.any())
+				.apis(RequestHandlerSelectors.withClassAnnotation(Api.class))
 				.paths(PathSelectors.any())
 				.build();
 	}

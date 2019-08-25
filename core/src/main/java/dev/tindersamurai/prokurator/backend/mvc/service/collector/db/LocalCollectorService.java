@@ -1,13 +1,9 @@
 package dev.tindersamurai.prokurator.backend.mvc.service.collector.db;
 
 import dev.tindersamurai.prokurator.backend.commons.entity.CollectorEvent;
-import dev.tindersamurai.prokurator.backend.mvc.data.dao.jpa.GuildRepo;
-import dev.tindersamurai.prokurator.backend.mvc.data.dao.jpa.TextChannelRepo;
-import dev.tindersamurai.prokurator.backend.mvc.data.dao.jpa.UserRepo;
-import dev.tindersamurai.prokurator.backend.mvc.data.entity.Guild;
-import dev.tindersamurai.prokurator.backend.mvc.data.entity.TextChannel;
-import dev.tindersamurai.prokurator.backend.mvc.data.entity.User;
 import dev.tindersamurai.prokurator.backend.mvc.service.collector.CollectorService;
+import dev.tindersamurai.prokurator.backend.mvc.service.collector.db.cache.CachedChannelService;
+import dev.tindersamurai.prokurator.backend.mvc.service.collector.db.cache.CachedUserService;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,49 +13,27 @@ import org.springframework.transaction.annotation.Transactional;
 @Service @Slf4j
 public class LocalCollectorService implements CollectorService {
 
-	private final TextChannelRepo textChannelRepo;
-	private final GuildRepo guildRepo;
-	private final UserRepo userRepo;
+	private final CachedChannelService channelService;
+	private final CachedUserService userService;
 
 	@Autowired
 	public LocalCollectorService(
-			TextChannelRepo textChannelRepo,
-			GuildRepo guildRepo,
-			UserRepo userRepo
+			CachedChannelService channelService,
+			CachedUserService userService
 	) {
-		this.textChannelRepo = textChannelRepo;
-		this.guildRepo = guildRepo;
-		this.userRepo = userRepo;
+		this.channelService = channelService;
+		this.userService = userService;
 	}
 
 	@Override @Transactional
 	public void saveDiscordEvent(CollectorEvent entity) {
 		log.debug("saveDiscordEvent: {}", entity);
 
-		val user = new User(); {
-			val author = entity.getUser();
-			user.setAvatar(author.getAvatar());
-			user.setName(author.getName());
-			user.setId(author.getId());
-			userRepo.save(user);
-		}
+		val channel = entity.getChannel();
+		val cid = channel.getGuild().getId() + "-" + channel.getId();
+		channelService.collectChannel(channel, cid);
 
-		val guild = new Guild(); {
-			val _guild = entity.getChannel().getGuild();
-			guild.setIconUrl(_guild.getAvatar());
-			guild.setName(_guild.getName());
-			guild.setId(_guild.getId());
-			guildRepo.save(guild);
-		}
-
-		val textChannel = new TextChannel(); {
-			val channel = entity.getChannel();
-			textChannel.setCategory(channel.getCategory());
-			textChannel.setName(channel.getName());
-			textChannel.setNsfw(channel.getNsfw());
-			textChannel.setId(channel.getId());
-			textChannel.setGuild(guild);
-			textChannelRepo.save(textChannel);
-		}
+		val user = entity.getUser();
+		userService.collectUser(user, user.getId());
 	}
 }

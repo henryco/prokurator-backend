@@ -22,8 +22,4 @@ public class User {
 			nullable = false
 	) String name;
 
-	private @Column(
-			name = "avatar"
-	) String avatar;
-
 }
