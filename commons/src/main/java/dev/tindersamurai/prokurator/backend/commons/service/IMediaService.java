@@ -6,4 +6,6 @@ public interface IMediaService {
 	void storeMedia(MediaEvent m);
 
 	void removeMedia(String id);
+
+
 }

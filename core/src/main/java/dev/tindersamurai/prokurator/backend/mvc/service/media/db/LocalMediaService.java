@@ -1,6 +1,8 @@
 package dev.tindersamurai.prokurator.backend.mvc.service.media.db;
 
+import dev.tindersamurai.prokurator.backend.commons.entity.MediaContent;
 import dev.tindersamurai.prokurator.backend.commons.entity.MediaEvent;
+import dev.tindersamurai.prokurator.backend.commons.entity.MediaProbe;
 import dev.tindersamurai.prokurator.backend.mvc.data.dao.MediaPostRepo;
 import dev.tindersamurai.prokurator.backend.mvc.data.dao.TextChannelRepo;
 import dev.tindersamurai.prokurator.backend.mvc.data.dao.UserRepo;
@@ -12,7 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 @Service @Slf4j
 public class LocalMediaService implements MediaService {
@@ -60,12 +64,20 @@ public class LocalMediaService implements MediaService {
 		log.debug("removeMedia: {}", id);
 		val found = mediaPostRepo.findById(id);
 		if (!found.isPresent()) {
-			throw new RuntimeException("Media post is not present in DB: " + id);
+			log.warn("Media post is not present in DB: " + id);
+			return;
 		}
 
 		val one = found.get();
 		one.setRemoved(true);
 
 		mediaPostRepo.save(one);
+	}
+
+	@Override @Transactional
+	public List<MediaContent> filterMedia(MediaProbe probe) {
+		log.debug("filterMedia: {}", probe);
+		// TODO FILTERING
+		return Collections.emptyList();
 	}
 }

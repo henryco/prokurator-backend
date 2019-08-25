@@ -1,4 +1,4 @@
-package dev.tindersamurai.prokurator.backend.mvc.controller;
+package dev.tindersamurai.prokurator.backend.mvc.api;
 
 import dev.tindersamurai.prokurator.backend.commons.entity.CollectorEvent;
 import dev.tindersamurai.prokurator.backend.mvc.service.collector.CollectorService;
@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 
@@ -24,7 +26,7 @@ public class CollectorController {
 	}
 
 	@PostMapping(value = "/event", consumes = APPLICATION_JSON_UTF8_VALUE)
-	public void saveCollectorEvent(@RequestBody CollectorEvent event) {
+	public void saveCollectorEvent(@Valid @RequestBody CollectorEvent event) {
 		collectorService.saveDiscordEvent(event);
 	}
 }
