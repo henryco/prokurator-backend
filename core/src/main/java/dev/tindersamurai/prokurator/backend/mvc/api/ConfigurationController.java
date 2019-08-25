@@ -1,4 +1,4 @@
-package dev.tindersamurai.prokurator.backend.mvc.controller;
+package dev.tindersamurai.prokurator.backend.mvc.api;
 
 import dev.tindersamurai.prokurator.backend.commons.entity.Config;
 import dev.tindersamurai.prokurator.backend.commons.entity.Response;

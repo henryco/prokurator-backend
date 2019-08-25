@@ -1,4 +1,4 @@
-package dev.tindersamurai.prokurator.backend.mvc.controller;
+package dev.tindersamurai.prokurator.backend.mvc.api;
 
 import dev.tindersamurai.prokurator.backend.mvc.service.guilds.GuildService;
 import io.swagger.annotations.Api;
