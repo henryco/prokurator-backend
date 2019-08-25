@@ -19,7 +19,7 @@ public class CUserService implements CachedUserService {
 	}
 
 	@Override @Transactional @Cacheable(
-			value = "collector_u", key = "cacheId"
+			value = "collector_u", key = "#cacheId"
 	) public void collectUser(DiscordEntity entity, String cacheId) {
 		log.debug("collectUser: {}, {}", entity, cacheId);
 

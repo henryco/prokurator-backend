@@ -28,7 +28,7 @@ public class CChannelService implements CachedChannelService {
 	}
 
 	@Override @Transactional @Cacheable(
-			value = "collector_c", key = "cacheId"
+			value = "collector_c", key = "#cacheId"
 	) public void collectChannel(ChannelEntity entity, String cacheId) {
 		log.debug("collectChannel: {}, {}", entity, cacheId);
 
