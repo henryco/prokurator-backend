@@ -1,9 +1,9 @@
 package dev.tindersamurai.prokurator.backend.mvc.service.media.db;
 
 import dev.tindersamurai.prokurator.backend.commons.entity.MediaEvent;
-import dev.tindersamurai.prokurator.backend.mvc.data.dao.jpa.MediaPostRepo;
-import dev.tindersamurai.prokurator.backend.mvc.data.dao.jpa.TextChannelRepo;
-import dev.tindersamurai.prokurator.backend.mvc.data.dao.jpa.UserRepo;
+import dev.tindersamurai.prokurator.backend.mvc.data.dao.MediaPostRepo;
+import dev.tindersamurai.prokurator.backend.mvc.data.dao.TextChannelRepo;
+import dev.tindersamurai.prokurator.backend.mvc.data.dao.UserRepo;
 import dev.tindersamurai.prokurator.backend.mvc.data.entity.post.MediaPost;
 import dev.tindersamurai.prokurator.backend.mvc.service.media.MediaService;
 import lombok.extern.slf4j.Slf4j;
@@ -47,6 +47,7 @@ public class LocalMediaService implements MediaService {
 			mediaPost.setFileId(attachment.getId());
 
 			mediaPost.setChannel(channel);
+			mediaPost.setRemoved(false);
 			mediaPost.setAuthor(author);
 			mediaPost.setId(m.getId());
 		}
@@ -54,4 +55,17 @@ public class LocalMediaService implements MediaService {
 		mediaPostRepo.save(mediaPost);
 	}
 
+	@Override @Transactional
+	public void removeMedia(String id) {
+		log.debug("removeMedia: {}", id);
+		val found = mediaPostRepo.findById(id);
+		if (!found.isPresent()) {
+			throw new RuntimeException("Media post is not present in DB: " + id);
+		}
+
+		val one = found.get();
+		one.setRemoved(true);
+
+		mediaPostRepo.save(one);
+	}
 }

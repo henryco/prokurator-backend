@@ -39,4 +39,8 @@ import static javax.persistence.TemporalType.TIMESTAMP;
 	private @ManyToOne(
 			cascade = ALL
 	) TextChannel channel;
+
+	private @Column(
+			name = "removed"
+	) Boolean removed;
 }

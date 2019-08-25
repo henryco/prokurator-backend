@@ -1,6 +1,6 @@
 package dev.tindersamurai.prokurator.backend.mvc.service.guilds;
 
-import dev.tindersamurai.prokurator.backend.mvc.data.dao.jpa.GuildRepo;
+import dev.tindersamurai.prokurator.backend.mvc.data.dao.GuildRepo;
 import dev.tindersamurai.prokurator.backend.mvc.data.entity.Guild;
 import lombok.Cleanup;
 import lombok.extern.slf4j.Slf4j;

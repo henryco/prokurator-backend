@@ -5,10 +5,7 @@ import dev.tindersamurai.prokurator.backend.mvc.service.media.MediaService;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 
@@ -27,5 +24,11 @@ public class MediaController {
 	public void saveMediaEvent(@RequestBody MediaEvent event) {
 		log.debug("saveMediaEvent: {}", event);
 		mediaService.storeMedia(event);
+	}
+
+	@DeleteMapping("/remove/{id}")
+	public void removeMediaPost(@PathVariable String id) {
+		log.debug("removeMediaPost: {}", id);
+		mediaService.removeMedia(id);
 	}
 }

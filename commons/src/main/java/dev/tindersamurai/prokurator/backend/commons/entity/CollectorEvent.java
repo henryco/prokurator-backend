@@ -14,7 +14,6 @@ public class CollectorEvent {
 	public static class DiscordEntity {
 		private @NonNull String id;
 		private @NonNull String name;
-		private @NonNull String avatar;
 	}
 
 	@Value @Builder @AllArgsConstructor

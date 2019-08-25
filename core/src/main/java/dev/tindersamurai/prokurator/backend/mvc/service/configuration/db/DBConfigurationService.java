@@ -1,6 +1,6 @@
 package dev.tindersamurai.prokurator.backend.mvc.service.configuration.db;
 
-import dev.tindersamurai.prokurator.backend.mvc.data.dao.jpa.ConfigurationRepo;
+import dev.tindersamurai.prokurator.backend.mvc.data.dao.ConfigurationRepo;
 import dev.tindersamurai.prokurator.backend.mvc.data.entity.Configuration;
 import dev.tindersamurai.prokurator.backend.mvc.service.configuration.ConfigurationService;
 import dev.tindersamurai.prokurator.backend.mvc.service.configuration.db.converter.DBConfigurationConverter;
