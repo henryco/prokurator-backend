@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Value;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -33,8 +34,8 @@ public class MediaProbe {
 		private int size;
 	}
 
-	private Query query;
+	private @Valid Query query;
 
 	@NotNull
-	private Page page;
+	private @Valid Page page;
 }
