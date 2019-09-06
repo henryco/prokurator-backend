@@ -32,3 +32,4 @@ token.properties
 .internal
 resources/lfs
 target
+/resources

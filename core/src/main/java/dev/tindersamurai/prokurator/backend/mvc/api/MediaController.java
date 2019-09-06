@@ -39,9 +39,12 @@ public class MediaController {
 		mediaService.removeMedia(id);
 	}
 
-	@PostMapping(value = "/filter", consumes = APPLICATION_JSON_UTF8_VALUE)
-	public Response<List<MediaContent>> filterMedia(@Valid @RequestBody MediaProbe probe) {
+	@PostMapping(value = "/filter/{gid}", consumes = APPLICATION_JSON_UTF8_VALUE)
+	public Response<List<MediaContent>> filterMedia(
+			@Valid @RequestBody MediaProbe probe,
+			@PathVariable("gid") String guildId
+	) {
 		log.debug("filterMedia: {}", probe);
-		return new Response<>(mediaService.filterMedia(probe));
+		return new Response<>(mediaService.filterMedia(probe, guildId));
 	}
 }

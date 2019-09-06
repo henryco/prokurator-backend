@@ -7,6 +7,7 @@ import dev.tindersamurai.prokurator.backend.mvc.data.dao.MediaPostRepo;
 import dev.tindersamurai.prokurator.backend.mvc.data.dao.TextChannelRepo;
 import dev.tindersamurai.prokurator.backend.mvc.data.dao.UserRepo;
 import dev.tindersamurai.prokurator.backend.mvc.data.entity.post.MediaPost;
+import dev.tindersamurai.prokurator.backend.mvc.data.filter.IMediaFilter;
 import dev.tindersamurai.prokurator.backend.mvc.service.media.MediaService;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -23,16 +24,19 @@ public class LocalMediaService implements MediaService {
 
 	private final TextChannelRepo textChannelRepo;
 	private final MediaPostRepo mediaPostRepo;
+	private final IMediaFilter mediaFilter;
 	private final UserRepo userRepo;
 
 	@Autowired
 	public LocalMediaService(
 			TextChannelRepo textChannelRepo,
 			MediaPostRepo mediaPostRepo,
+			IMediaFilter mediaFilter,
 			UserRepo userRepo
 	) {
 		this.textChannelRepo = textChannelRepo;
 		this.mediaPostRepo = mediaPostRepo;
+		this.mediaFilter = mediaFilter;
 		this.userRepo = userRepo;
 	}
 
@@ -75,9 +79,10 @@ public class LocalMediaService implements MediaService {
 	}
 
 	@Override @Transactional
-	public List<MediaContent> filterMedia(MediaProbe probe) {
+	public List<MediaContent> filterMedia(MediaProbe probe, String guild) {
 		log.debug("filterMedia: {}", probe);
-		// TODO FILTERING
-		return Collections.emptyList();
+		val result = mediaFilter.buildQuery(probe, guild);
+		log.debug("RESULT: {}", result);
+		return result;
 	}
 }
