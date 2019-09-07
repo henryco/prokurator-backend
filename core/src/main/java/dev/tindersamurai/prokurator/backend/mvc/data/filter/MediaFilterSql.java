@@ -130,7 +130,7 @@ public class MediaFilterSql implements IMediaFilter {
 	}
 
 	@Override
-	public List<MediaContent> buildQuery(MediaProbe probe, String guildId) {
+	public List<MediaContent> filterMedia(MediaProbe probe, String guildId) {
 
 		val query = probe.getQuery();
 		val page = probe.getPage();
