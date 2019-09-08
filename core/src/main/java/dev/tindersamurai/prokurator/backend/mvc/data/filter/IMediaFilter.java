@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface IMediaFilter {
 
-	List<MediaContent> buildQuery(MediaProbe probe, String guildId);
+	List<MediaContent> filterMedia(MediaProbe probe, String guildId);
 
 }

@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -81,7 +80,7 @@ public class LocalMediaService implements MediaService {
 	@Override @Transactional
 	public List<MediaContent> filterMedia(MediaProbe probe, String guild) {
 		log.debug("filterMedia: {}", probe);
-		val result = mediaFilter.buildQuery(probe, guild);
+		val result = mediaFilter.filterMedia(probe, guild);
 		log.debug("RESULT: {}", result);
 		return result;
 	}
