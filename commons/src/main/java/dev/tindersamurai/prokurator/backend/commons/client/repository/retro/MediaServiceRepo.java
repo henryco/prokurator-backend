@@ -20,7 +20,7 @@ public interface MediaServiceRepo {
 	@DELETE("api/media/remove/{id}")
 	Call<Void> removeMedia(@Path("id") String id);
 
-	@POST("api/filter/{gid}")
+	@POST("api/media/filter/{gid}")
 	Call<Response<List<MediaContent>>> filterMedia(
 			@Body MediaProbe probe,
 			@Path("gid") String guildId
