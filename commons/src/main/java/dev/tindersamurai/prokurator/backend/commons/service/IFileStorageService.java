@@ -12,6 +12,8 @@ public interface IFileStorageService {
 
 	File getFile(@NonNull String fid) throws FileNotFoundException;
 
+	String getFileUrl(@NonNull String fid);
+
 	/** @return UID string */
 	String storeFile(@NonNull File file, String name);
 

@@ -61,6 +61,12 @@ public class StorageServiceClient implements IFileStorageService {
 		return createTempFile(getFileStream(fid));
 	}
 
+
+	@Override
+	public String getFileUrl(@NonNull String fid) {
+		return serviceRepo.getFile(fid).request().url().toString();
+	}
+
 	@Override
 	public String storeFile(@NonNull File file, String name) {
 		log.info("storeFile: " + file);

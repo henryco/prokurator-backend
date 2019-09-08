@@ -78,6 +78,15 @@ public class LFSFileStorageService implements FileStorageService {
 	}
 
 	@Override
+	public String getFileUrl(@NonNull String fid) {
+		try {
+			return getFilePath(fid);
+		} catch (FileNotFoundException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Override
 	public String storeFile(@NonNull File file, String name) {
 		log.debug("storeFile({}, {})", file, name);
 		log.warn("Using existing file, func sec arg[name] will be ignored...");
